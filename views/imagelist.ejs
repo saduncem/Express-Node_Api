@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Karakükatür Api</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+    <%- include('header') -%>
+    <div class="container">
+        <h1> Karakükatür Listesi</h1>
+        <hr>
+            <div class="card" style="width: 18rem;">
+          
+                    <ul class="list-group">
+                        <% if(users.length > 0){ %>
+                          <% users.forEach(function(file) { %>
+                            <li class="list-group-item"><%= file %>  <img src='/uploads/<%= file %>' width="100" /> </li>
+                          <% }); %>
+                      <% } else{ %>  
+                          <p>no photos uploaded</p>
+                      <% } %>
+                       
+                    </ul>
+                </div>
+      </div>
+    
+</body>
+</html>
