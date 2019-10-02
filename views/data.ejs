@@ -14,7 +14,9 @@
         <hr>
             <div class="card" style="width: 18rem;">
                     <ul class="list-group">
-                           
+                        <% data.forEach(function(item) { %>
+                            <li class="list-group-item"><%= item.id %> - <%= item.name %></li>
+                        <% }); %>
                         </ul>
                 </div>
       </div>

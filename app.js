@@ -13,7 +13,7 @@ firebase .initializeApp({
 });
 
 var db = firebase.database();
-var ref = db.ref("datalar/Karikatürler");
+var ref = db.ref("datalar/Karikatürler/");
 var filename = "";
 
 const storage = multer.diskStorage({
@@ -55,34 +55,38 @@ app.get("/list", (req, res) => {
 		users: users
   });
 });
-var data = {};
+var maindata = [];
 app.get("/data", (req, res) => {
-  ref.once("value", function(snapshot) {
-   var newPost = snapshot.val();
-   console.log("Author: " + newPost.DataList);
+  maindata = [];
+  ref.child("DataList").once("value", function(snapshot) {
+     snapshot.forEach(function(childSnapshot) {
+      // key will be "ada" the first time and "alan" the second time
+      var key = childSnapshot.key;
+      // childData will be the actual contents of the child
+      var childData = childSnapshot.val();
+      maindata.push(childData);
+  });
+
+   res.render('data',{
+    data:maindata
+  });
 });
- 
-   if(data)
-   {
-    console.log(data);
-    res.render('data',{
-      data:data
-    });
-   }
+   
 });
 
-function writeUserData(userId, name, imageUrl) {
+function writeUserData(userId, name, imageUrl,req,res) {
   var dataRef = ref.child("DataList");
    var newPostRef = dataRef.push();
    newPostRef.set(JSON.parse(JSON.stringify({id:newPostRef.key,name:name,url:imageUrl})));
+   res.send(req.files);
 }
 app.post('/uploadfile', (req, res, next) => {
   const file = req.file
   upload(req, res, err => {
-    writeUserData(Date.now(),filename,"/uploads/" +filename);
-    res.send(req.files);
+    writeUserData(Date.now(),filename,"/uploads/" +filename,req,res);
   });
-  res.redirect("/");
+  console.log("ana sayfaya gidecek");
+  res.redirect("/list");
 });
 
 
