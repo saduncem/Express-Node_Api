@@ -79,6 +79,7 @@ function writeUserData(userId, name, imageUrl,req,res) {
    var newPostRef = dataRef.push();
    newPostRef.set(JSON.parse(JSON.stringify({id:newPostRef.key,name:name,url:imageUrl})));
    res.send(req.files);
+   res.status(200).end()
 }
 app.post('/uploadfile', (req, res, next) => {
   const file = req.file
