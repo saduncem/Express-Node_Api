@@ -79,7 +79,7 @@ function writeUserData(userId, name, imageUrl,req,res) {
    var newPostRef = dataRef.push();
    newPostRef.set(JSON.parse(JSON.stringify({id:newPostRef.key,name:name,url:imageUrl})));
    res.send(req.files);
-   res.status(200).end()
+   res.status(200).end();
 }
 app.post('/uploadfile', (req, res, next) => {
   const file = req.file
@@ -87,7 +87,7 @@ app.post('/uploadfile', (req, res, next) => {
     writeUserData(Date.now(),filename,"/uploads/" +filename,req,res);
   });
   console.log("ana sayfaya gidecek");
-  res.redirect("/list");
+  //res.redirect("/list");
 });
 
 
