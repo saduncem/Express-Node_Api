@@ -50,11 +50,23 @@ app.get("/list", (req, res) => {
 		users: users
   });
 });
-app.get("/list", (req, res) => {
-  res.render('imagelist', {
-		users: users
+app.get("/GetDataList", (req, res) => {
+  var data = [];
+  ref.child("DataList").once("value", function(snapshot) {
+     snapshot.forEach(function(childSnapshot) {
+      // key will be "ada" the first time and "alan" the second time
+      var key = childSnapshot.key;
+      // childData will be the actual contents of the child
+      var childData = childSnapshot.val();
+      data.push(childData);
   });
+  res.status(200).send({
+    success: 'true',
+    message: 'data retrieved successfully',
+    data: data
+  })
 });
+
 var maindata = [];
 app.get("/data", (req, res) => {
   maindata = [];
@@ -66,7 +78,7 @@ app.get("/data", (req, res) => {
       var childData = childSnapshot.val();
       maindata.push(childData);
   });
-
+});
    res.render('data',{
     data:maindata
   });
